@@ -1,0 +1,3 @@
+﻿  allegro.cpp
+D:\C++\allegro\allegro\allegro.cpp(268): warning C4715: 'SinglePlayer_CharSelect': not all control paths return a value
+  allegro.vcxproj -> D:\C++\allegro\Debug\allegro.exe
