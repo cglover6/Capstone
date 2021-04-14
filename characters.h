@@ -44,7 +44,7 @@ public:
 	}
 	int getSpriteWidth(Major& player)
 	{
-		return al_get_bitmap_width(player.playerSprite);
+			return al_get_bitmap_width(player.playerSprite);
 	}
 	int getSpriteHeight(Major& player)
 	{
