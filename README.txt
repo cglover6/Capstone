@@ -25,7 +25,7 @@ Drumstick Throw - Throw your drumsticks at the bully!
 Guitar Smash - Hit the bully with a guitar!
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 The Chemistry Major skills:
-Chemical explosion - Use your knowledge of chemstry to make a bomb to throw at the bully!
+Acid - Burn the bully with acid!
 Stink Bomb - Make a bomb that releases a chemical gas that smells like rotten eggs!
 Death Potion - Brew a potion that looks delicous to the bully until he drinks it and realises it is a poisenous drink!
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
