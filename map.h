@@ -4,17 +4,27 @@
 
 class Background {
 private:
-	ALLEGRO_BITMAP* background;
+	ALLEGRO_BITMAP* mapBackground;
+	ALLEGRO_BITMAP* battleBackground;
 
 public:
-	void grassBackground()
+	void MapBackground()
 	{
-		background = al_load_bitmap("grassbackground.png");
+		mapBackground = al_load_bitmap("grassbackground.png");
 	}
 	
-	void drawBackground()
+	void drawMapBackground()
 	{
-		al_draw_bitmap(background, 0, 0, 0);
+		al_draw_bitmap(mapBackground, 0, 0, 0);
+	}
+	
+	void BattleBackground()
+	{
+		battleBackground = al_load_bitmap("battleBackground.png");
 	}
 
+	void drawBattleBackground()
+	{
+		al_draw_bitmap(battleBackground, 0, 0, 0);
+	}
 };
