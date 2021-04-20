@@ -1,3 +1,6 @@
 ﻿  allegro.cpp
-D:\C++\allegro\allegro\allegro.cpp(268): warning C4715: 'SinglePlayer_CharSelect': not all control paths return a value
+D:\C++\allegro\allegro\allegro.cpp(462,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(681,19): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(898,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(458): warning C4715: 'CharSelect': not all control paths return a value
   allegro.vcxproj -> D:\C++\allegro\Debug\allegro.exe

@@ -24,6 +24,7 @@ bool FinalCollisionDetection(Boss finalBoss, float player1_x, float player1_y, i
 int BasketballBossBattle(Major player, Boss basketballBoss, float &x, float &y);
 int FootballBossBattle(Major player, Boss footballBoss, float& x, float& y);
 int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y);
+void ClearScreen();
 
 int main()
 {
@@ -495,95 +496,156 @@ int BasketballBossBattle(Major player, Boss basketballBoss, float &x, float &y)
 
 	while (running)
 	{
-		basketballBattle.drawBattleBackground();
-		player.DrawPlayerBattle();
-		basketballBoss.DrawBattleBoss();
-		player.WriteSkill1();
-		player.WriteSkill2();
-		player.WriteSkill3();
-		player.DrawSkill1();
-		player.DrawSkill2();
-		player.DrawSkill3();
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
-		if (turnCount < 2)
-		{
-			al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
-		}
-		if (playerHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (bossHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (playerHealth <= 0 && endingScene == true)
-		{
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
-			al_flip_display();
-			al_rest(2.0);
-
-			running = false;
-			player.LoseLife();
-		}
-
-		if (bossHealth <= 0 && endingScene == true)
-		{
-
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
-			al_flip_display();
-			al_rest(2.0);
-
-			running = false;
-		}
-		al_flip_display();
-
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
-
-		ALLEGRO_KEYBOARD_STATE keyState;
-		al_get_keyboard_state(&keyState);
-
-		if (turn == true && bossHealth > 0 && endingScene != true)
+		
+		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
+			basketballBattle.drawBattleBackground();
+			player.DrawPlayerBattle();
+			basketballBoss.DrawBattleBoss();
+			player.WriteSkill1();
+			player.WriteSkill2();
+			player.WriteSkill3();
+			player.DrawSkill1();
+			player.DrawSkill2();
+			player.DrawSkill3();
+			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
+			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+			if (turnCount < 2)
+			{
+				al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+			}
+			if (playerHealth == 0)
+			{
+				endingScene = true;
+			}
+			if (bossHealth == 0)
+			{
+				endingScene = true;
+			}
+			if (playerHealth <= 0 && endingScene == true)
+			{
+				al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
+				al_flip_display();
+				al_rest(2.0);
 
-			if (event.type == ALLEGRO_EVENT_TIMER) {
+				running = false;
+				player.LoseLife();
+			}
+
+			if (bossHealth <= 0 && endingScene == true)
+			{
+
+				al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
+				al_flip_display();
+				al_rest(2.0);
+
+				running = false;
+			}
+			al_flip_display();
+
+		
+
+			ALLEGRO_KEYBOARD_STATE keyState;
+			al_get_keyboard_state(&keyState);
+	
+			if (turn == true && bossHealth > 0 && endingScene != true)
+			{
+
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
 					basketballBoss.LoseHealth(player.useSkill1());
 					bossHealth = basketballBoss.GetHealth();
 
+					al_clear_to_color(al_map_rgb(255, 255, 255));
+					basketballBattle.drawBattleBackground();
+					basketballBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill1());
+					player.DrawAnimation1();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+					
+					al_rest(2.0);
 				}
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_2))
 				{
 					basketballBoss.LoseHealth(player.useSkill2());
 					bossHealth = basketballBoss.GetHealth();
-				
+					al_clear_to_color(al_map_rgb(255, 255, 255));
+
+					basketballBattle.drawBattleBackground();
+					basketballBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill2());
+					player.DrawAnimation2();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+					al_rest(2.0);
 				}
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_3))
 				{
 					basketballBoss.LoseHealth(player.useSkill3());
 					bossHealth = basketballBoss.GetHealth();
+					
+					al_clear_to_color(al_map_rgb(255, 255, 255));
+					basketballBattle.drawBattleBackground();
+					basketballBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
+
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill3());
+					player.DrawAnimation3();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+					al_rest(2.0);
 				}
 
 				if (turnCount < 2)
@@ -607,6 +669,7 @@ int BasketballBossBattle(Major player, Boss basketballBoss, float &x, float &y)
 
 			turn = true;
 		}
+	
 	}
 
 	return player.getLives();
@@ -614,159 +677,220 @@ int BasketballBossBattle(Major player, Boss basketballBoss, float &x, float &y)
 
 int FootballBossBattle(Major player, Boss footballBoss, float& x, float& y)
 {
-	ALLEGRO_BITMAP* playerSprite;
-	ALLEGRO_BITMAP* bossSprite;
-	ALLEGRO_FONT* skillFont;
-	ALLEGRO_FONT* healthFont;
-	ALLEGRO_FONT* minusHealthFont;
-	ALLEGRO_EVENT_QUEUE* event_queue;
-	ALLEGRO_TIMER* FPS;
-
-	Background basketballBattle;
-	basketballBattle.BattleBackground();
-
-	event_queue = al_create_event_queue();
-
-	FPS = al_create_timer(1.0 / 60);
-
-	al_register_event_source(event_queue, al_get_keyboard_event_source());
-	al_register_event_source(event_queue, al_get_timer_event_source(FPS));
+	
+		ALLEGRO_BITMAP* playerSprite;
+		ALLEGRO_BITMAP* bossSprite;
+		ALLEGRO_FONT* skillFont;
+		ALLEGRO_FONT* healthFont;
+		ALLEGRO_FONT* minusHealthFont;
+		ALLEGRO_EVENT_QUEUE* event_queue;
+		ALLEGRO_TIMER* FPS;
 
 
-	skillFont = al_load_font("skillsFont.ttf", 24, 0);
-	healthFont = al_load_font("battlehealthfont.ttf", 36, 0);
-	minusHealthFont = al_load_font("battlehealthfont.ttf", 24, 0);
-	bossSprite = al_load_bitmap("basketballboss.png");
+		Background footballBattle;
+		footballBattle.BattleBackground();
+
+		event_queue = al_create_event_queue();
+		FPS = al_create_timer(1.0 / 60);
+
+		al_register_event_source(event_queue, al_get_keyboard_event_source());
+		al_register_event_source(event_queue, al_get_timer_event_source(FPS));
 
 
-	int bossHealth = footballBoss.GetHealth();
-	int playerHealth = player.GetHealth();
-	bool turn = true;
-	int turnCount = 0;
-	bool endingScene = false;
+		//initialize fonts
+		skillFont = al_load_font("skillsFont.ttf", 24, 0);
+		healthFont = al_load_font("battlehealthfont.ttf", 36, 0);
+		minusHealthFont = al_load_font("battlehealthfont.ttf", 24, 0);
+
+		bossSprite = al_load_bitmap("basketballboss.png");
+		int bossHealth = footballBoss.GetHealth();
+		int playerHealth = player.GetHealth();
+		bool turn = true;
+		int turnCount = 0;
+		bool endingScene = false;
 
 
-	bool running = true;
+		bool running = true;
+		al_start_timer(FPS);
 
-	al_start_timer(FPS);
-
-	while (running)
-	{
-		basketballBattle.drawBattleBackground();
-		player.DrawPlayerBattle();
-		footballBoss.DrawBattleBoss();
-		player.WriteSkill1();
-		player.WriteSkill2();
-		player.WriteSkill3();
-		player.DrawSkill1();
-		player.DrawSkill2();
-		player.DrawSkill3();
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
-		if (turnCount < 2)
+		while (running)
 		{
-			al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
-		}
-		if (playerHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (bossHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (playerHealth <= 0 && endingScene == true)
-		{
+			ALLEGRO_EVENT event;
+			al_wait_for_event(event_queue, &event);
 
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
-			al_flip_display();
-			al_rest(3.0);
-
-			player.LoseLife();
-			running = false;
-		}
-
-		if (bossHealth <= 0 && endingScene == true)
-		{
-
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
-			al_flip_display();
-			al_rest(3.0);
-
-			running = false;
-		}
-		al_flip_display();
-
-		ALLEGRO_EVENT event;
-		al_wait_for_event(event_queue, &event);
-
-		ALLEGRO_KEYBOARD_STATE keyState;
-		al_get_keyboard_state(&keyState);
-
-		if (turn == true && bossHealth > 0 && endingScene != true)
-		{
-
-			if (event.type == ALLEGRO_EVENT_TIMER) {
-				if (al_key_down(&keyState, ALLEGRO_KEY_1))
-				{
-					footballBoss.LoseHealth(player.useSkill1());
-					bossHealth = footballBoss.GetHealth();
-
-					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill1());
-					al_flip_display();
-					turn = false;
-					turnCount++;
-					al_rest(1.0);
-				}
-
-				if (al_key_down(&keyState, ALLEGRO_KEY_2))
-				{
-					footballBoss.LoseHealth(player.useSkill2());
-					bossHealth = footballBoss.GetHealth();
-
-					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill2());
-					al_flip_display();
-					turn = false;
-					turnCount++;
-					al_rest(1.0);
-				}
-
-				if (al_key_down(&keyState, ALLEGRO_KEY_3))
-				{
-					footballBoss.LoseHealth(player.useSkill3());
-					bossHealth = footballBoss.GetHealth();
-					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill3());
-					al_flip_display();
-					turn = false;
-					turnCount++;
-					al_rest(1.0);
-				}
-
+			if (event.type == ALLEGRO_EVENT_TIMER)
+			{
+				footballBattle.drawBattleBackground();
+				player.DrawPlayerBattle();
+				footballBoss.DrawBattleBoss();
+				player.WriteSkill1();
+				player.WriteSkill2();
+				player.WriteSkill3();
+				player.DrawSkill1();
+				player.DrawSkill2();
+				player.DrawSkill3();
+				al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+				al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
+				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
 				if (turnCount < 2)
 				{
-					if (al_key_down(&keyState, ALLEGRO_KEY_4))
+					al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+				}
+				if (playerHealth == 0)
+				{
+					endingScene = true;
+				}
+				if (bossHealth == 0)
+				{
+					endingScene = true;
+				}
+				if (playerHealth <= 0 && endingScene == true)
+				{
+					al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
+					al_flip_display();
+					al_rest(2.0);
+
+					running = false;
+					player.LoseLife();
+				}
+
+				if (bossHealth <= 0 && endingScene == true)
+				{
+
+					al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
+					al_flip_display();
+					al_rest(2.0);
+
+					running = false;
+				}
+				al_flip_display();
+
+
+
+				ALLEGRO_KEYBOARD_STATE keyState;
+				al_get_keyboard_state(&keyState);
+
+				if (turn == true && bossHealth > 0 && endingScene != true)
+				{
+
+					if (al_key_down(&keyState, ALLEGRO_KEY_1))
 					{
-						return player.getLives();
+						footballBoss.LoseHealth(player.useSkill1());
+						bossHealth = footballBoss.GetHealth();
+
+						al_clear_to_color(al_map_rgb(255, 255, 255));
+						footballBattle.drawBattleBackground();
+						footballBoss.DrawBattleBoss();
+						player.WriteSkill1();
+						player.WriteSkill2();
+						player.WriteSkill3();
+						player.DrawSkill1();
+						player.DrawSkill2();
+						player.DrawSkill3();
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+						if (turnCount < 2)
+						{
+							al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+						}
+						al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill1());
+						player.DrawAnimation1();
+						al_flip_display();
+						turn = false;
+						turnCount++;
+
+						al_rest(2.0);
+					}
+
+					if (al_key_down(&keyState, ALLEGRO_KEY_2))
+					{
+						footballBoss.LoseHealth(player.useSkill2());
+						bossHealth = footballBoss.GetHealth();
+						al_clear_to_color(al_map_rgb(255, 255, 255));
+
+						footballBattle.drawBattleBackground();
+						footballBoss.DrawBattleBoss();
+						player.WriteSkill1();
+						player.WriteSkill2();
+						player.WriteSkill3();
+						player.DrawSkill1();
+						player.DrawSkill2();
+						player.DrawSkill3();
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+						if (turnCount < 2)
+						{
+							al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+						}
+						al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill2());
+						player.DrawAnimation2();
+						al_flip_display();
+						turn = false;
+						turnCount++;
+						al_rest(2.0);
+					}
+
+					if (al_key_down(&keyState, ALLEGRO_KEY_3))
+					{
+						footballBoss.LoseHealth(player.useSkill3());
+						bossHealth = footballBoss.GetHealth();
+
+						al_clear_to_color(al_map_rgb(255, 255, 255));
+						footballBattle.drawBattleBackground();
+						footballBoss.DrawBattleBoss();
+						player.WriteSkill1();
+						player.WriteSkill2();
+						player.WriteSkill3();
+						player.DrawSkill1();
+						player.DrawSkill2();
+						player.DrawSkill3();
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+						al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
+						al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+
+						if (turnCount < 2)
+						{
+							al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+						}
+
+						al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill3());
+						player.DrawAnimation3();
+						al_flip_display();
+						turn = false;
+						turnCount++;
+						al_rest(2.0);
+					}
+
+					if (turnCount < 2)
+					{
+						if (al_key_down(&keyState, ALLEGRO_KEY_4))
+						{
+							return player.getLives();
+						}
 					}
 				}
 			}
+
+			else if (turn == false && playerHealth > 0 && endingScene != true)
+			{
+				player.LoseHealth(footballBoss.UseAttack1());
+				playerHealth = player.GetHealth();
+				al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 150, 230, 0, "-%i", footballBoss.UseAttack1());
+				al_flip_display();
+				al_rest(1.0);
+
+				turn = true;
+			}
+
 		}
-		else if (turn == false && playerHealth > 0 && endingScene != true)
-		{
-			player.LoseHealth(footballBoss.UseAttack1());
-			playerHealth = player.GetHealth();
-			al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 150, 230, 0, "-%i", footballBoss.UseAttack1());
-			al_flip_display();
-			al_rest(1.0);
 
-
-			turn = true;
-		}
-	}
-
-	return player.getLives();
+		return player.getLives();
 }
 
 int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y)
@@ -779,23 +903,23 @@ int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y)
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
 
-	Background basketballBattle;
-	basketballBattle.BattleBackground();
+
+	Background finalBattle;
+	finalBattle.BattleBackground();
 
 	event_queue = al_create_event_queue();
-
 	FPS = al_create_timer(1.0 / 60);
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(FPS));
 
 
+	//initialize fonts
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	healthFont = al_load_font("battlehealthfont.ttf", 36, 0);
 	minusHealthFont = al_load_font("battlehealthfont.ttf", 24, 0);
+
 	bossSprite = al_load_bitmap("basketballboss.png");
-
-
 	int bossHealth = finalBoss.GetHealth();
 	int playerHealth = player.GetHealth();
 	bool turn = true;
@@ -804,101 +928,160 @@ int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y)
 
 
 	bool running = true;
-
 	al_start_timer(FPS);
 
 	while (running)
 	{
-		basketballBattle.drawBattleBackground();
-		player.DrawPlayerBattle();
-		finalBoss.DrawBattleBoss();
-		player.WriteSkill1();
-		player.WriteSkill2();
-		player.WriteSkill3();
-		player.DrawSkill1();
-		player.DrawSkill2();
-		player.DrawSkill3();
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
-		al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", finalBoss.GetHealth());
-		al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
-		if (turnCount < 2)
-		{
-			al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
-		}
-		if (playerHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (bossHealth == 0)
-		{
-			endingScene = true;
-		}
-		if (playerHealth <= 0 && endingScene == true)
-		{
-
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
-			al_flip_display();
-			al_rest(2.0);
-			
-			player.LoseLife();
-			running = false;
-		}
-
-		if (bossHealth <= 0 && endingScene == true)
-		{
-
-			al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
-			al_flip_display();
-			al_rest(2.0);
-
-			running = false;
-		}
-		al_flip_display();
-
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
 
-		ALLEGRO_KEYBOARD_STATE keyState;
-		al_get_keyboard_state(&keyState);
-
-		if (turn == true && bossHealth > 0 && endingScene != true)
+		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
+			finalBattle.drawBattleBackground();
+			player.DrawPlayerBattle();
+			finalBoss.DrawBattleBoss();
+			player.WriteSkill1();
+			player.WriteSkill2();
+			player.WriteSkill3();
+			player.DrawSkill1();
+			player.DrawSkill2();
+			player.DrawSkill3();
+			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", finalBoss.GetHealth());
+			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+			if (turnCount < 2)
+			{
+				al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+			}
+			if (playerHealth == 0)
+			{
+				endingScene = true;
+			}
+			if (bossHealth == 0)
+			{
+				endingScene = true;
+			}
+			if (playerHealth <= 0 && endingScene == true)
+			{
+				al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "Now give me your lunch money loser!");
+				al_flip_display();
+				al_rest(2.0);
 
-			if (event.type == ALLEGRO_EVENT_TIMER) {
+				running = false;
+				player.LoseLife();
+			}
+
+			if (bossHealth <= 0 && endingScene == true)
+			{
+
+				al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 40, 0, "You may have beat me but you will never win!");
+				al_flip_display();
+				al_rest(2.0);
+
+				running = false;
+			}
+			al_flip_display();
+
+
+
+			ALLEGRO_KEYBOARD_STATE keyState;
+			al_get_keyboard_state(&keyState);
+
+			if (turn == true && bossHealth > 0 && endingScene != true)
+			{
+
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
 					finalBoss.LoseHealth(player.useSkill1());
 					bossHealth = finalBoss.GetHealth();
 
+					al_clear_to_color(al_map_rgb(255, 255, 255));
+					finalBattle.drawBattleBackground();
+					finalBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", finalBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill1());
+					player.DrawAnimation1();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+
+					al_rest(2.0);
 				}
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_2))
 				{
 					finalBoss.LoseHealth(player.useSkill2());
 					bossHealth = finalBoss.GetHealth();
+					al_clear_to_color(al_map_rgb(255, 255, 255));
 
+					finalBattle.drawBattleBackground();
+					finalBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", finalBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill2());
+					player.DrawAnimation2();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+					al_rest(2.0);
 				}
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_3))
 				{
 					finalBoss.LoseHealth(player.useSkill3());
 					bossHealth = finalBoss.GetHealth();
+
+					al_clear_to_color(al_map_rgb(255, 255, 255));
+					finalBattle.drawBattleBackground();
+					finalBoss.DrawBattleBoss();
+					player.WriteSkill1();
+					player.WriteSkill2();
+					player.WriteSkill3();
+					player.DrawSkill1();
+					player.DrawSkill2();
+					player.DrawSkill3();
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", finalBoss.GetHealth());
+					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+
+					if (turnCount < 2)
+					{
+						al_draw_text(skillFont, al_map_rgb(255, 255, 255), 340, 580, 0, "4) RUN!!!");
+					}
+
 					al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 340, 80, 0, "-%i", player.useSkill3());
+					player.DrawAnimation3();
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					al_rest(1.0);
+					al_rest(2.0);
 				}
 
 				if (turnCount < 2)
@@ -910,6 +1093,7 @@ int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y)
 				}
 			}
 		}
+
 		else if (turn == false && playerHealth > 0 && endingScene != true)
 		{
 			player.LoseHealth(finalBoss.UseAttack1());
@@ -920,6 +1104,7 @@ int FinalBossBattle(Major player, Boss finalBoss, float& x, float& y)
 
 			turn = true;
 		}
+
 	}
 
 	return player.getLives();

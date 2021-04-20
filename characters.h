@@ -19,6 +19,9 @@ private:
 	ALLEGRO_BITMAP* skill1Sprite;
 	ALLEGRO_BITMAP* skill2Sprite;
 	ALLEGRO_BITMAP* skill3Sprite;
+	ALLEGRO_BITMAP* animation1;
+	ALLEGRO_BITMAP* animation2;
+	ALLEGRO_BITMAP* animation3;
 	ALLEGRO_FONT* skillFont;
 	const char* skill1Text;
 	const char* skill2Text;
@@ -56,6 +59,21 @@ public:
 	void DrawSkill3()
 	{
 		al_draw_bitmap(skill3Sprite, 570, 470, 0);
+	}
+
+	void DrawAnimation1()
+	{
+		al_draw_scaled_bitmap(animation1, 0, 0, 64, 64, 160, 220, 150, 150, 0);
+	}
+
+	void DrawAnimation2()
+	{
+		al_draw_scaled_bitmap(animation2, 0, 0, 64, 64, 160, 220, 150, 150, 0);
+	}
+
+	void DrawAnimation3()
+	{
+		al_draw_scaled_bitmap(animation3, 0, 0, 64, 64, 160, 220, 150, 150, 0);
 	}
 
 	void WriteSkill1()
@@ -107,6 +125,7 @@ public:
 	{
 		return al_get_bitmap_height(playerSprite);
 	}
+
 	int getPlayerX()
 	{
 		return x;
@@ -173,6 +192,9 @@ void Major::compScience()
 	skill1Sprite = al_load_bitmap("computerscienceskill1.png");
 	skill2Sprite = al_load_bitmap("computerscienceskill2.png");
 	skill3Sprite = al_load_bitmap("computerscienceskill3.png");
+	animation1 = al_load_bitmap("computerscienceanimation1.png");
+	animation2 = al_load_bitmap("computerscienceanimation2.png");
+	animation3 = al_load_bitmap("computerscienceanimation3.png");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Papercut";
 	skill2Text = "2) Glasses Reflect";
@@ -189,6 +211,10 @@ void Major::music()
 	skill1Sprite = al_load_bitmap("musicskill1.png");
 	skill2Sprite = al_load_bitmap("musicskill2.png");
 	skill3Sprite = al_load_bitmap("musicskill3.png");
+	animation1 = al_load_bitmap("musicanimation1.png");
+	animation2 = al_load_bitmap("musicanimation2.png");
+	animation3 = al_load_bitmap("musicanimation3.png");
+
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Cymbal Clash";
 	skill2Text = "2) Drum";
@@ -205,6 +231,9 @@ void Major::nurse()
 	skill1Sprite = al_load_bitmap("nurseskill1.png");
 	skill2Sprite = al_load_bitmap("nurseskill2.png");
 	skill3Sprite = al_load_bitmap("nurseskill3.png");
+	animation1 = al_load_bitmap("nurseanimation1.png");
+	animation2 = al_load_bitmap("nurseanimation2.png");
+	animation3 = al_load_bitmap("nurseanimation3.png");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Bandage Wrap";
 	skill2Text = "2) Heal";
@@ -222,6 +251,9 @@ void Major::chemistry()
 	skill1Sprite = al_load_bitmap("chemistryskill1.png");
 	skill2Sprite = al_load_bitmap("chemistryskill2.png");
 	skill3Sprite = al_load_bitmap("chemistryskill3.png");
+	animation1 = al_load_bitmap("chemistryanimation1.png");
+	animation2 = al_load_bitmap("chemistryanimation2.png");
+	animation3 = al_load_bitmap("chemistryanimation3.png");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Stink Bomb";
 	skill2Text = "2) Acid";
