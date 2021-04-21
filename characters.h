@@ -1,6 +1,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <stdlib.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 //Player class
 
 class Major {
@@ -23,9 +25,13 @@ private:
 	ALLEGRO_BITMAP* animation2;
 	ALLEGRO_BITMAP* animation3;
 	ALLEGRO_FONT* skillFont;
+	ALLEGRO_SAMPLE* audio1 = NULL;
+	ALLEGRO_SAMPLE* audio2 = NULL;
+	ALLEGRO_SAMPLE* audio3 = NULL;
 	const char* skill1Text;
 	const char* skill2Text;
 	const char* skill3Text;
+
 
 
 public:
@@ -74,6 +80,21 @@ public:
 	void DrawAnimation3()
 	{
 		al_draw_scaled_bitmap(animation3, 0, 0, 64, 64, 160, 220, 150, 150, 0);
+	}
+
+	void PlayAudio1()
+	{
+		al_play_sample(audio1, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+	}
+
+	void PlayAudio2()
+	{
+		al_play_sample(audio2, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+	}
+
+	void PlayAudio3()
+	{
+		al_play_sample(audio3, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 	}
 
 	void WriteSkill1()
@@ -185,7 +206,7 @@ void Major::PlayerLocation(float passedx, float passedy)
 void Major::compScience()
 {
 	isNurse = false;
-	skill1 = 90;
+	skill1 = 900; 
 	skill2 = 140;
 	skill3 = 120;
 	playerSprite = al_load_bitmap("computersciencesprite.png");
@@ -195,6 +216,9 @@ void Major::compScience()
 	animation1 = al_load_bitmap("computerscienceanimation1.png");
 	animation2 = al_load_bitmap("computerscienceanimation2.png");
 	animation3 = al_load_bitmap("computerscienceanimation3.png");
+	audio1 = al_load_sample("computerscienceaudio1.wav");
+	audio2 = al_load_sample("computerscienceaudio2.wav");
+	audio3 = al_load_sample("computerscienceaudio3.wav");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Papercut";
 	skill2Text = "2) Glasses Reflect";
@@ -214,6 +238,9 @@ void Major::music()
 	animation1 = al_load_bitmap("musicanimation1.png");
 	animation2 = al_load_bitmap("musicanimation2.png");
 	animation3 = al_load_bitmap("musicanimation3.png");
+	audio1 = al_load_sample("musicianaudio1.wav");
+	audio2 = al_load_sample("musicianaudio2.wav");
+	audio3 = al_load_sample("musicianaudio3.wav");
 
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Cymbal Clash";
@@ -235,6 +262,9 @@ void Major::nurse()
 	animation2 = al_load_bitmap("nurseanimation2.png");
 	animation3 = al_load_bitmap("nurseanimation3.png");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
+	audio1 = al_load_sample("nurseaudio1.wav");
+	audio2 = al_load_sample("nurseaudio2.wav");
+	audio3 = al_load_sample("nurseaudio3.wav");
 	skill1Text = "1) Bandage Wrap";
 	skill2Text = "2) Heal";
 	skill3Text = "3) Shot";
@@ -254,6 +284,9 @@ void Major::chemistry()
 	animation1 = al_load_bitmap("chemistryanimation1.png");
 	animation2 = al_load_bitmap("chemistryanimation2.png");
 	animation3 = al_load_bitmap("chemistryanimation3.png");
+	audio1 = al_load_sample("chemistaudio1.wav");
+	audio2 = al_load_sample("chemistaudio2.wav");
+	audio3 = al_load_sample("chemistaudio3.wav");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	skill1Text = "1) Stink Bomb";
 	skill2Text = "2) Acid";
