@@ -14,15 +14,6 @@ using namespace std;
 int screenWidth = 640;
 int screenHeight = 640;
 
-
-ALLEGRO_SAMPLE* worldMusic = NULL;
-ALLEGRO_SAMPLE* titleMusic = NULL;
-ALLEGRO_SAMPLE* battleMusic = NULL;
-ALLEGRO_SAMPLE_INSTANCE* battleInstance = NULL;
-ALLEGRO_SAMPLE_INSTANCE* songInstance = NULL;
-ALLEGRO_SAMPLE_INSTANCE* menuInstance = NULL;
-
-
 //function prototypes
 int TitleScreen();
 Major CharSelect();
@@ -48,6 +39,11 @@ int main()
 	ALLEGRO_TIMER* timer;
 	ALLEGRO_FONT* livesFont;
 	ALLEGRO_TRANSFORM camera;	
+	ALLEGRO_SAMPLE* worldMusic = NULL;
+	ALLEGRO_SAMPLE* battleMusic = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* battleInstance = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* songInstance = NULL;
+
 
 	
 	//initialize display, queue, timer, and font pointers
@@ -142,19 +138,15 @@ int main()
 	al_reserve_samples(20);
 
 	worldMusic = al_load_sample("worldsong.wav");
-	titleMusic = al_load_sample("titlesong.wav");
 	battleMusic = al_load_sample("battlesong.wav");
 
 	songInstance = al_create_sample_instance(worldMusic);
-	menuInstance = al_create_sample_instance(titleMusic);
 	battleInstance = al_create_sample_instance(battleMusic);
 	
 	al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);
-	al_set_sample_instance_playmode(menuInstance, ALLEGRO_PLAYMODE_LOOP);
 	al_set_sample_instance_playmode(battleInstance, ALLEGRO_PLAYMODE_LOOP);
 
 	al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
-	al_attach_sample_instance_to_mixer(menuInstance, al_get_default_mixer());
 	al_attach_sample_instance_to_mixer(battleInstance, al_get_default_mixer());
 
 //map loop
@@ -412,10 +404,8 @@ int TitleScreen()
 {
 	//main menu
 	ALLEGRO_BITMAP* mainScreen;
-
-
-	titleMusic = al_load_sample("menusong.wav");
-
+	ALLEGRO_SAMPLE* titleMusic = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* menuInstance = NULL;
 
 	mainScreen = al_load_bitmap("MENU.PNG");
 	//stops my code if no address is read from main screen
