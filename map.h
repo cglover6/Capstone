@@ -6,6 +6,7 @@ class Background {
 private:
 	ALLEGRO_BITMAP* mapBackground;
 	ALLEGRO_BITMAP* battleBackground;
+	ALLEGRO_BITMAP* coopBattleBackground;
 
 public:
 	void MapBackground()
@@ -26,5 +27,15 @@ public:
 	void drawBattleBackground()
 	{
 		al_draw_bitmap(battleBackground, 0, 0, 0);
+	}
+
+	void CoopBattleBackground()
+	{
+		coopBattleBackground = al_load_bitmap("battle2player.png");
+	}
+
+	void DrawCoopBattleBackground()
+	{
+		al_draw_bitmap(coopBattleBackground, 0, 0, 0);
 	}
 };

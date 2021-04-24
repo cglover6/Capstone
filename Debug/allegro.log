@@ -1,6 +1,11 @@
 ﻿  allegro.cpp
-C:\Users\chihy\Documents\Capstone\Capstone\allegro.cpp(562,18): warning C4101: 'playerSprite': unreferenced local variable
-C:\Users\chihy\Documents\Capstone\Capstone\allegro.cpp(792,19): warning C4101: 'playerSprite': unreferenced local variable
-C:\Users\chihy\Documents\Capstone\Capstone\allegro.cpp(1021,18): warning C4101: 'playerSprite': unreferenced local variable
-C:\Users\chihy\Documents\Capstone\Capstone\allegro.cpp(557): warning C4715: 'CharSelect': not all control paths return a value
-  Allegro.vcxproj -> C:\Users\chihy\Documents\Capstone\Allegro\Debug\Allegro.exe
+D:\C++\allegro\allegro\allegro.cpp(953,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(1203,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(1609,19): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(1860,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(2191,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\allegro.cpp(2599,18): warning C4101: 'playerSprite': unreferenced local variable
+D:\C++\allegro\allegro\characters.h(563): warning C4715: 'Boss::UseAttack': not all control paths return a value
+D:\C++\allegro\allegro\allegro.cpp(948): warning C4715: 'CharSelect': not all control paths return a value
+D:\C++\allegro\allegro\allegro.cpp(2186): warning C4715: 'LivesChance': not all control paths return a value
+  allegro.vcxproj -> D:\C++\allegro\Debug\allegro.exe

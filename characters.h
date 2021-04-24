@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+#include <cstdlib>
+#include <ctime>
 //Player class
 
 class Major {
@@ -25,6 +27,7 @@ private:
 	ALLEGRO_BITMAP* animation2;
 	ALLEGRO_BITMAP* animation3;
 	ALLEGRO_FONT* skillFont;
+	ALLEGRO_FONT* blackFont;
 	ALLEGRO_SAMPLE* audio1 = NULL;
 	ALLEGRO_SAMPLE* audio2 = NULL;
 	ALLEGRO_SAMPLE* audio3 = NULL;
@@ -51,6 +54,16 @@ public:
 		al_draw_scaled_bitmap(playerSprite, 0, 0, getSpriteWidth(), getSpriteHeight(), 160, 220, 150, 150, 0);
 	}
 
+	void DrawPlayer1Battle()
+	{
+		al_draw_scaled_bitmap(playerSprite, 0, 0, getSpriteWidth(), getSpriteHeight(), 105, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer2Battle()
+	{
+		al_draw_scaled_bitmap(playerSprite, 0, 0, getSpriteWidth(), getSpriteHeight(), 425, 280, 100, 100, 0);
+	}
+
 
 	void DrawSkill1()
 	{
@@ -67,6 +80,36 @@ public:
 		al_draw_bitmap(skill3Sprite, 570, 470, 0);
 	}
 
+	void Player1DrawSkill1()
+	{
+		al_draw_scaled_bitmap(skill1Sprite, 0, 0, 64, 64, 250, 434, 48, 48, 0);
+	}
+
+	void Player1DrawSkill2()
+	{
+		al_draw_scaled_bitmap(skill2Sprite, 0, 0, 64, 64, 250, 485, 48, 48, 0);
+	}
+
+	void Player1DrawSkill3()
+	{
+		al_draw_scaled_bitmap(skill3Sprite, 0, 0, 64, 64, 250, 533, 48, 48, 0);
+	}
+
+	void Player2DrawSkill1()
+	{
+		al_draw_scaled_bitmap(skill1Sprite, 0, 0, 64, 64, 555, 434, 48, 48, 0);
+	}
+
+	void Player2DrawSkill2()
+	{
+		al_draw_scaled_bitmap(skill2Sprite, 0, 0, 64, 64, 555, 485, 48, 48, 0);
+	}
+
+	void Player2DrawSkill3()
+	{
+		al_draw_scaled_bitmap(skill3Sprite, 0, 0, 64, 64, 555, 533, 48, 48, 0);
+	}
+
 	void DrawAnimation1()
 	{
 		al_draw_scaled_bitmap(animation1, 0, 0, 64, 64, 160, 220, 150, 150, 0);
@@ -80,6 +123,36 @@ public:
 	void DrawAnimation3()
 	{
 		al_draw_scaled_bitmap(animation3, 0, 0, 64, 64, 160, 220, 150, 150, 0);
+	}
+
+	void DrawPlayer1Animation1()
+	{
+		al_draw_scaled_bitmap(animation1, 0, 0, 64, 64, 105, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer1Animation2()
+	{
+		al_draw_scaled_bitmap(animation2, 0, 0, 64, 64, 105, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer1Animation3()
+	{
+		al_draw_scaled_bitmap(animation3, 0, 0, 64, 64, 105, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer2Animation1()
+	{
+		al_draw_scaled_bitmap(animation1, 0, 0, 64, 64, 425, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer2Animation2()
+	{
+		al_draw_scaled_bitmap(animation2, 0, 0, 64, 64, 425, 280, 100, 100, 0);
+	}
+
+	void DrawPlayer2Animation3()
+	{
+		al_draw_scaled_bitmap(animation3, 0, 0, 64, 64, 425, 280, 100, 100, 0);
 	}
 
 	void PlayAudio1()
@@ -102,6 +175,7 @@ public:
 		al_draw_textf(skillFont, al_map_rgb(255, 255, 255), 20, 490, 0, skill1Text);
 	}
 
+
 	void WriteSkill2()
 	{
 		al_draw_textf(skillFont, al_map_rgb(255, 255, 255), 20, 580, 0, skill2Text);
@@ -110,6 +184,36 @@ public:
 	void WriteSkill3()
 	{
 		al_draw_textf(skillFont, al_map_rgb(255, 255, 255), 340, 490, 0, skill3Text);
+	}
+
+	void Player1WriteSkill1()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 20, 445, 0, skill1Text);
+	}
+
+	void Player1WriteSkill2()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 20, 495, 0, skill2Text);
+	}
+
+	void Player1WriteSkill3()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 20, 540, 0, skill3Text);
+	}
+
+	void Player2WriteSkill1()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 340, 445, 0, skill1Text);
+	}
+
+	void Player2WriteSkill2()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 340, 495, 0, skill2Text);
+	}
+
+	void Player2WriteSkill3()
+	{
+		al_draw_textf(blackFont, al_map_rgb(0, 0, 0), 340, 540, 0, skill3Text);
 	}
 
 	int getLives()
@@ -142,6 +246,7 @@ public:
 	{
 		return al_get_bitmap_width(playerSprite);
 	}
+
 	int getSpriteHeight()
 	{
 		return al_get_bitmap_height(playerSprite);
@@ -175,6 +280,7 @@ public:
 			{
 				health = 200;
 			}
+
 			return 0;
 		}
 		
@@ -220,6 +326,7 @@ void Major::compScience()
 	audio2 = al_load_sample("computerscienceaudio2.wav");
 	audio3 = al_load_sample("computerscienceaudio3.wav");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
+	blackFont = al_load_font("skillsFont.ttf", 18, 0);
 	skill1Text = "1) Papercut";
 	skill2Text = "2) Glasses Reflect";
 	skill3Text = "3) Hack";
@@ -243,6 +350,7 @@ void Major::music()
 	audio3 = al_load_sample("musicianaudio3.wav");
 
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
+	blackFont = al_load_font("skillsFont.ttf", 18, 0);
 	skill1Text = "1) Cymbal Clash";
 	skill2Text = "2) Drum";
 	skill3Text = "3) Guitar Slam";
@@ -262,6 +370,7 @@ void Major::nurse()
 	animation2 = al_load_bitmap("nurseanimation2.png");
 	animation3 = al_load_bitmap("nurseanimation3.png");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
+	blackFont = al_load_font("skillsFont.ttf", 18, 0);
 	audio1 = al_load_sample("nurseaudio1.wav");
 	audio2 = al_load_sample("nurseaudio2.wav");
 	audio3 = al_load_sample("nurseaudio3.wav");
@@ -288,6 +397,7 @@ void Major::chemistry()
 	audio2 = al_load_sample("chemistaudio2.wav");
 	audio3 = al_load_sample("chemistaudio3.wav");
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
+	blackFont = al_load_font("skillsFont.ttf", 18, 0);
 	skill1Text = "1) Stink Bomb";
 	skill2Text = "2) Acid";
 	skill3Text = "3) Potion of Death";
@@ -304,7 +414,11 @@ private:
 	int y;
 	int boundx;
 	int boundy;
+	bool dead;
 	ALLEGRO_BITMAP* bossSprite;
+	ALLEGRO_BITMAP* animation1;
+	ALLEGRO_BITMAP* animation2;
+	ALLEGRO_BITMAP* animation3;
 
 public:
 	void Basketball_Boss();
@@ -317,37 +431,59 @@ public:
 	int BossX();
 	int BossY();
 	int GetHealth();
+	void SetHealth(int);
 	void LoseHealth(int);
-	int UseAttack1();
+	int UseAttack();
+	void DrawAnimation();
+	void Kill();
+	bool CheckDead();
+	void CoopDrawAnimation();
 };
 
 
 void Boss::Basketball_Boss()
 {
-	health = 400;
+	health = 1000;
+	dead = false;
 	x = 440;
 	y = 475;
-	attack1 = 150;
+	attack1 = 100;
+	attack2 = 120;
+	attack3 = 120;
 	bossSprite = al_load_bitmap("basketballboss.png");
+	animation1 = al_load_bitmap("basketballattack1.png");
+	animation2 = al_load_bitmap("basketballattack2.png");
+	animation3 = al_load_bitmap("basketballattack3.png");
 }
 
 void Boss::Football_Boss()
 {
 	health = 600;
+	dead = false;
 	x = 680;
 	y = 80;
-	attack1 = 120;
+	attack1 = 300;
+	attack2 = 200;
+	attack3 = 120;
 	bossSprite = al_load_bitmap("footballsprite.png");
+	animation1 = al_load_bitmap("footballanimation1.png");
+	animation2 = al_load_bitmap("footballanimation2.png");
+	animation3 = al_load_bitmap("footballanimation3.png");
 }
 
 void Boss::Final_Boss()
 {
 	health = 1000;
+	dead = false;
 	x = 1000;
 	y = 320;
 	attack1 = 60;
+	attack2 = 90;
+	attack3 = 120;
 	bossSprite = al_load_bitmap("bodybuildersprite.png");
-
+	animation1 = al_load_bitmap("bodybuilderattack1.png");
+	animation2 = al_load_bitmap("bodybuilderattack2.png");
+	animation3 = al_load_bitmap("bodybuilderattack3.png");
 }
 
 int Boss::getBossWidth()
@@ -386,6 +522,11 @@ int Boss::GetHealth()
 	return health;
 }
 
+void Boss::SetHealth(int num)
+{
+	health = num;
+}
+
 void Boss::LoseHealth(int damage)
 {
 	health -= damage;
@@ -395,7 +536,89 @@ void Boss::LoseHealth(int damage)
 	}
 }
 
-int Boss::UseAttack1()
+//4/22/2021 Start
+int Boss::UseAttack()
 {
-	return attack1;
+	int selection = 0;
+
+	srand((unsigned)time(0));
+	selection = (rand() % 3) + 1;
+
+	if (selection == 1)
+	{
+		return attack1;
+	}
+
+	if (selection == 2)
+	{
+		return attack2;
+	}
+
+	if (selection == 3)
+	{
+		return attack3;
+	}
+
+
 }
+
+void Boss::DrawAnimation()
+{
+	int selection = 0;
+
+	srand((unsigned)time(0));
+	selection = (rand() % 3) + 1;
+
+	if (selection == 1)
+	{
+		al_draw_scaled_bitmap(animation1, 0, 0, getBossWidth(), getBossHeight(), 350, 70, 140, 170, 0);
+	}
+
+	if (selection == 2)
+	{
+		al_draw_scaled_bitmap(animation2, 0, 0, getBossWidth(), getBossHeight(), 350, 70, 140, 170, 0);
+	}
+
+	if (selection == 3)
+	{
+		al_draw_scaled_bitmap(animation3, 0, 0, getBossWidth(), getBossHeight(), 350, 70, 140, 170, 0);
+	}
+}
+
+void Boss::CoopDrawAnimation()
+{
+	int selection = 0;
+
+	srand((unsigned)time(0));
+	selection = (rand() % 3) + 1;
+
+	if (selection == 1)
+	{
+		al_draw_scaled_bitmap(animation1, 0, 0, getBossWidth(), getBossHeight(), 250, 20, 140, 170, 0);
+	}
+
+	if (selection == 2)
+	{
+		al_draw_scaled_bitmap(animation2, 0, 0, getBossWidth(), getBossHeight(), 250, 20, 140, 170, 0);
+	}
+
+	if (selection == 3)
+	{
+		al_draw_scaled_bitmap(animation3, 0, 0, getBossWidth(), getBossHeight(), 250, 20, 140, 170, 0);
+	}
+}
+
+
+void Boss::Kill()
+{
+	dead = true;
+}
+
+
+bool Boss::CheckDead()
+{
+	return dead;
+}
+
+
+
