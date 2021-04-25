@@ -1277,6 +1277,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 			}
 			if (bossHealth == 0)
 			{
+				basketballBoss.Kill();
 				endingScene = true;
 			}
 
@@ -1439,7 +1440,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 			{
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
-					basketballBoss.LoseHealth(player1.useSkill1());
+					basketballBoss.LoseHealth(player2.useSkill1());
 					bossHealth = basketballBoss.GetHealth();
 
 					basketballBattle.DrawCoopBattleBackground();
@@ -1474,7 +1475,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 				
 				if (al_key_down(&keyState, ALLEGRO_KEY_2))
 				{
-					basketballBoss.LoseHealth(player1.useSkill2());
+					basketballBoss.LoseHealth(player2.useSkill2());
 					bossHealth = basketballBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
@@ -1514,7 +1515,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_3))
 				{
-					basketballBoss.LoseHealth(player1.useSkill3());
+					basketballBoss.LoseHealth(player2.useSkill3());
 					bossHealth = basketballBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
@@ -2428,7 +2429,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 			{
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
-					footballBoss.LoseHealth(player1.useSkill1());
+					footballBoss.LoseHealth(player2.useSkill1());
 					bossHealth = footballBoss.GetHealth();
 
 					footballBattle.DrawCoopBattleBackground();
@@ -2463,7 +2464,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_2))
 				{
-					footballBoss.LoseHealth(player1.useSkill2());
+					footballBoss.LoseHealth(player2.useSkill2());
 					bossHealth = footballBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
@@ -2503,7 +2504,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_3))
 				{
-					footballBoss.LoseHealth(player1.useSkill3());
+					footballBoss.LoseHealth(player2.useSkill3());
 					bossHealth = footballBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
@@ -2836,7 +2837,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 			{
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
-					finalBoss.LoseHealth(player1.useSkill1());
+					finalBoss.LoseHealth(player2.useSkill1());
 					bossHealth = finalBoss.GetHealth();
 
 					finalBattle.DrawCoopBattleBackground();
@@ -2871,7 +2872,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_2))
 				{
-					finalBoss.LoseHealth(player1.useSkill2());
+					finalBoss.LoseHealth(player2.useSkill2());
 					bossHealth = finalBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
@@ -2911,7 +2912,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 
 				if (al_key_down(&keyState, ALLEGRO_KEY_3))
 				{
-					finalBoss.LoseHealth(player1.useSkill3());
+					finalBoss.LoseHealth(player2.useSkill3());
 					bossHealth = finalBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
