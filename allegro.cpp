@@ -9,6 +9,11 @@
 #include <ctime>
 #include "characters.h"
 #include "map.h"
+// STILL NEED TO CHANGE THE LIVE
+// ASK CJ ABOUT : 
+// NURSE HEALING LIMIT 
+// HOW TO DOUBLE THE HEALTH OF THE BOSS  
+
 
 
 
@@ -55,8 +60,15 @@ int main()
 	ALLEGRO_TRANSFORM camera;	
 	ALLEGRO_SAMPLE* worldMusic = NULL;
 	ALLEGRO_SAMPLE* battleMusic = NULL;
+	ALLEGRO_SAMPLE* LostMusic = NULL;
+	ALLEGRO_SAMPLE* winMusic = NULL;
+	ALLEGRO_SAMPLE* rngMusic = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* rngInstance = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* lostInstance = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* winInstance = NULL;
 	ALLEGRO_SAMPLE_INSTANCE* battleInstance = NULL;
 	ALLEGRO_SAMPLE_INSTANCE* songInstance = NULL;
+
 
 
 	
@@ -173,17 +185,30 @@ int main()
 
 	al_reserve_samples(20);
 
-	worldMusic = al_load_sample("worldsong.wav");
+	
+	worldMusic = al_load_sample("worldsong.wav"); 
 	battleMusic = al_load_sample("battlesong.wav");
+	LostMusic = al_load_sample("lostsong.wav");
+	winMusic = al_load_sample("winsong.wav");
+	rngMusic = al_load_sample("RNGsong.wav");
 
 	songInstance = al_create_sample_instance(worldMusic);
 	battleInstance = al_create_sample_instance(battleMusic);
+	lostInstance = al_create_sample_instance(LostMusic);
+	winInstance = al_create_sample_instance(winMusic);
+	rngInstance = al_create_sample_instance(rngMusic);
 	
 	al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);
 	al_set_sample_instance_playmode(battleInstance, ALLEGRO_PLAYMODE_LOOP);
+	al_set_sample_instance_playmode(lostInstance, ALLEGRO_PLAYMODE_LOOP);
+	al_set_sample_instance_playmode(winInstance, ALLEGRO_PLAYMODE_LOOP);
+	al_set_sample_instance_playmode(rngInstance, ALLEGRO_PLAYMODE_LOOP);
 
 	al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
 	al_attach_sample_instance_to_mixer(battleInstance, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(lostInstance, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(winInstance, al_get_default_mixer());
+	al_attach_sample_instance_to_mixer(rngInstance, al_get_default_mixer());
 
 //map loop
 	//overworld for single player mode
@@ -274,12 +299,16 @@ int main()
 						player1_x = 20;
 						player1_y = 340;
 						player1.setLives(lives);
+						if (basketballBoss.CheckDead() == true)
+						{
+							player1.UpgradeHealth();
+						}
 						LoadScreen();
+
 						// Stop playing battle Song 
 						al_stop_sample_instance(battleInstance);
 						//PLAY MUSIC AGAIN
 						al_play_sample_instance(songInstance);
-
 					}
 					//if colliding with football boss and enter is pressed
 					if (player1_footballCollision == true && al_key_down(&state, ALLEGRO_KEY_ENTER) && footballBoss.CheckDead() == false)
@@ -295,6 +324,10 @@ int main()
 						player1_x = 20;
 						player1_y = 340;
 						player1.setLives(lives);
+						if (basketballBoss.CheckDead() == true)
+						{
+							player1.UpgradeHealth();
+						}
 						LoadScreen();
 
 						// Stop playing battle Song 
@@ -317,6 +350,10 @@ int main()
 						player1_x = 20;
 						player1_y = 340;
 						player1.setLives(lives);
+						if (basketballBoss.CheckDead() == true)
+						{
+							player1.UpgradeHealth();
+						}
 						LoadScreen();
 
 						// Stop playing battle Song 
@@ -328,27 +365,50 @@ int main()
 
 					if (finalBoss.CheckDead() == true)
 					{
+						// STOP THE WORLD MUSIC
+						al_stop_sample_instance(songInstance);
+						// PLAY WINING AUDIO HERE 
+						al_play_sample_instance(winInstance);
+
 						GameOver();
 						return 0;
 					}
 					
 					if (player1.getLives() == 0 && extraLife == false)
 					{
+						// STOPS THE WORLD MUSIC 
+						al_stop_sample_instance(songInstance); 
+
+						// PLAY RNG MUSIC HERE 
+						al_play_sample_instance(rngInstance);
+
 						lastLife = LivesChance(player1);
 						player1.setLives(lastLife);
+
 						if (lastLife == 0)
 						{
+						     // STOP THE RNG SONG 
+							al_stop_sample_instance(rngInstance);
+							// PLAY LOST AUDIO HERE 
+							al_play_sample_instance(lostInstance);
 							GameOver();
 							return 0;
 						}
 						else
 						{
+							// STOP THE RNG SONG 
+							al_stop_sample_instance(rngInstance);
+							al_play_sample_instance(songInstance); 
 							extraLife = true;
 							continue;
 						}
 					}
 					else if (player1.getLives() == 0 && extraLife == true)
 					{
+						// STOP THE WORLD MUSIC
+						al_stop_sample_instance(songInstance);
+						// PLAY LOST AUDIO 
+						al_play_sample_instance(lostInstance);
 						GameOver();
 						return 0;
 					}
@@ -517,6 +577,13 @@ int main()
 					player2_x = 80;
 					player2_y = 340;
 					player1.setLives(lives);
+
+					if (basketballBoss.CheckDead() == true)
+					{
+						player1.UpgradeHealth();
+						player2.UpgradeHealth();
+					}
+
 					LoadScreen();
 
 					// Stop playing battle Song 
@@ -541,6 +608,12 @@ int main()
 					player2_x = 80;
 					player2_y = 340;
 					player1.setLives(lives);
+
+					if (basketballBoss.CheckDead() == true)
+					{
+						player1.UpgradeHealth();
+						player2.UpgradeHealth();
+					}
 					LoadScreen();
 
 					// Stop playing battle Song 
@@ -565,6 +638,11 @@ int main()
 					player2_x = 80;
 					player2_y = 340;
 					player1.setLives(lives);
+					if (basketballBoss.CheckDead() == true)
+					{
+						player1.UpgradeHealth();
+						player2.UpgradeHealth();
+					}
 					LoadScreen();
 
 					// Stop playing battle Song 
@@ -576,27 +654,49 @@ int main()
 				
 				if (finalBoss.CheckDead() == true)
 				{
+					// STOP THE WORLD MUSIC 
+					al_stop_sample_instance(songInstance);
+					// ADD WINING AUDIO HERE 
+					al_play_sample_instance(winInstance);
 					GameOver();
 					return 0;
 				}
 
 				if (player1.getLives() == 0 && extraLife == false)
 				{
+					al_stop_sample_instance(songInstance);
+
+					al_play_sample_instance(rngInstance);
+
 					lastLife = LivesChance(player1);
+
 					player1.setLives(lastLife);
+
 					if (lastLife == 0)
 					{
+						// STOP THE WORLD MUSIC 
+						al_stop_sample_instance(rngInstance);
+						// ADD LOST AUDIO HERE 
+						al_play_sample_instance(lostInstance);
 						GameOver();
 						return 0;
 					}
 					else
 					{
+						al_stop_sample_instance(rngInstance);
+						al_play_sample_instance(songInstance);
+						// STOP RNG MUSIC 
+						// PLAY WORLD MUISC 
 						extraLife = true;
 						continue;
 					}
 				}
 				else if (player1.getLives() == 0 && extraLife == true)
 				{
+					// STOP THE WORLD MUSIC 
+					al_stop_sample_instance(songInstance);
+					// ADD LOST AUDIO HERE 
+					al_play_sample_instance(lostInstance);
 					GameOver();
 					return 0;
 				}
@@ -658,6 +758,10 @@ int main()
 	al_destroy_timer(timer);
 	al_destroy_sample(worldMusic);
 	al_destroy_sample_instance(songInstance);
+	al_destroy_sample_instance(battleInstance);
+	al_destroy_sample_instance(rngInstance);
+	al_destroy_sample_instance(winInstance);
+	al_destroy_sample_instance(lostInstance);
 
 	return 0;
 }
@@ -880,6 +984,24 @@ Major CharSelect()
 	//This bitmap specifically is just an image but it looks like a character selection screen
 	ALLEGRO_BITMAP* charSelect;
 	ALLEGRO_EVENT_QUEUE* queue;
+	ALLEGRO_SAMPLE* CharSelectMusic = NULL;
+	ALLEGRO_SAMPLE_INSTANCE* CharInstance = NULL;
+
+	al_install_audio();
+	al_init_acodec_addon();
+
+	al_reserve_samples(1);
+
+	CharSelectMusic = al_load_sample("playerselectmenu.wav");
+
+	CharInstance = al_create_sample_instance(CharSelectMusic);
+
+	al_set_sample_instance_playmode(CharInstance, ALLEGRO_PLAYMODE_LOOP);
+
+	al_attach_sample_instance_to_mixer(CharInstance, al_get_default_mixer());
+
+	al_play_sample_instance(CharInstance);
+
 	queue = al_create_event_queue();
 
 	al_register_event_source(queue, al_get_keyboard_event_source());
@@ -899,18 +1021,24 @@ Major CharSelect()
 		ALLEGRO_KEYBOARD_STATE keyState;
 		al_get_keyboard_state(&keyState);
 
-	
-
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 			choice = false;
 
-		if (al_key_down(&keyState, ALLEGRO_KEY_1)) { choice = 1; }
+		if (al_key_down(&keyState, ALLEGRO_KEY_1)) { choice = 1;
+		al_stop_sample_instance(CharInstance);
+		}
 
-		if (al_key_down(&keyState, ALLEGRO_KEY_2)) { choice = 2; }
+		if (al_key_down(&keyState, ALLEGRO_KEY_2)) { choice = 2;
+		al_stop_sample_instance(CharInstance);
+		}
 
-		if (al_key_down(&keyState, ALLEGRO_KEY_3)) { choice = 3; }
+		if (al_key_down(&keyState, ALLEGRO_KEY_3)) { choice = 3;
+		al_stop_sample_instance(CharInstance);
+		}
 
-		if (al_key_down(&keyState, ALLEGRO_KEY_4)) { choice = 4; }
+		if (al_key_down(&keyState, ALLEGRO_KEY_4)) { choice = 4;
+		al_stop_sample_instance(CharInstance);
+		}
 	}
 
 	//Depending on the choice initializes the character you choose, this gets your character sprite, skills, health and damage they do
@@ -948,7 +1076,7 @@ Major CharSelect()
 }
 
 //DAN WE NEED AUDIO IN ALL OF THESE 3
-int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
+int BasketballBossBattle(Major player, Boss& basketballBoss, float& x, float& y)
 {
 	ALLEGRO_BITMAP* playerSprite;
 	ALLEGRO_BITMAP* bossSprite;
@@ -957,8 +1085,8 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 	ALLEGRO_FONT* minusHealthFont;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
+	ALLEGRO_SAMPLE* basketballattack = NULL;
 
-	
 	Background basketballBattle;
 	basketballBattle.BattleBackground();
 
@@ -967,13 +1095,18 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(FPS));
+	// Audio inialize
+	al_install_audio();
+	al_init_acodec_addon();
+
+	basketballattack = al_load_sample("basketballattack.wav");
 
 
 	//initialize fonts
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	healthFont = al_load_font("battlehealthfont.ttf", 36, 0);
 	minusHealthFont = al_load_font("battlehealthfont.ttf", 24, 0);
-	
+
 	bossSprite = al_load_bitmap("basketballboss.png");
 	int bossHealth = basketballBoss.GetHealth();
 	int initialHealth = basketballBoss.GetHealth();
@@ -991,7 +1124,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 	{
 		ALLEGRO_EVENT event;
 		al_wait_for_event(event_queue, &event);
-		
+
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
 			basketballBattle.drawBattleBackground();
@@ -1042,11 +1175,11 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 			}
 			al_flip_display();
 
-		
+
 
 			ALLEGRO_KEYBOARD_STATE keyState;
 			al_get_keyboard_state(&keyState);
-	
+
 			if (turn == true && bossHealth > 0 && endingScene != true)
 			{
 				//BASED ON THE USERS INPUT WE NEED AN AUDIO FOR EACH CHOICE, EACH CHOICE IS A SKILL
@@ -1057,7 +1190,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 
 					//DAN AUDIO NEEDS TO BE HERE
 					player.PlayAudio1();
-	
+
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					basketballBattle.drawBattleBackground();
 					basketballBoss.DrawBattleBoss();
@@ -1067,7 +1200,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 					player.DrawSkill1();
 					player.DrawSkill2();
 					player.DrawSkill3();
-					
+
 					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
 					al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
 					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
@@ -1081,7 +1214,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 					al_flip_display();
 					turn = false;
 					turnCount++;
-					
+
 					al_rest(2.0);
 				}
 
@@ -1089,7 +1222,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 				{
 					basketballBoss.LoseHealth(player.useSkill2());
 					bossHealth = basketballBoss.GetHealth();
-					
+
 					//DAN AUDIO NEEDS TO BE HERE
 					player.PlayAudio2();
 
@@ -1122,7 +1255,7 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 				{
 					basketballBoss.LoseHealth(player.useSkill3());
 					bossHealth = basketballBoss.GetHealth();
-					
+
 					//DAN AUDIO GOES HERE
 					player.PlayAudio3();
 
@@ -1162,40 +1295,44 @@ int BasketballBossBattle(Major player, Boss &basketballBoss, float &x, float &y)
 
 					}
 				}
+
 			}
+
+			else if (turn == false && playerHealth > 0 && endingScene != true)
+			{
+				// AUDIO 
+				al_play_sample(basketballattack,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+				player.LoseHealth(basketballBoss.UseAttack());
+				playerHealth = player.GetHealth();
+
+				al_clear_to_color(al_map_rgb(255, 255, 255));
+				basketballBattle.drawBattleBackground();
+				al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 150, 230, 0, "-%i", basketballBoss.UseAttack());
+				player.DrawPlayerBattle();
+				player.WriteSkill1();
+				player.WriteSkill2();
+				player.WriteSkill3();
+				player.DrawSkill1();
+				player.DrawSkill2();
+				player.DrawSkill3();
+				al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
+				al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
+				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
+				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
+				basketballBoss.DrawAnimation();
+
+				al_flip_display();
+				al_rest(1.0);
+
+
+				turn = true;
+			}
+
 		}
-		
-		else if(turn == false && playerHealth > 0 && endingScene != true)
-		{
-			player.LoseHealth(basketballBoss.UseAttack());
-			playerHealth = player.GetHealth();
-
-			al_clear_to_color(al_map_rgb(255, 255, 255));
-			basketballBattle.drawBattleBackground();
-			al_draw_textf(minusHealthFont, al_map_rgb(0, 0, 0), 150, 230, 0, "-%i", basketballBoss.UseAttack());
-			player.DrawPlayerBattle();
-			player.WriteSkill1();
-			player.WriteSkill2();
-			player.WriteSkill3();
-			player.DrawSkill1();
-			player.DrawSkill2();
-			player.DrawSkill3();
-			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 480, 15, 0, "Health:");
-			al_draw_text(healthFont, al_map_rgb(0, 0, 0), 25, 400, 0, "Health:");
-			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", basketballBoss.GetHealth());
-			al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
-			basketballBoss.DrawAnimation();
-			
-			al_flip_display();
-			al_rest(1.0);
-
-
-			turn = true;
-		}
-	
 	}
-	// BATTLE  MUSIC 
-	return player.getLives();
+		// BATTLE  MUSIC 
+		return player.getLives();
+	
 }
 
 int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss, float& x, float& y)
@@ -1207,26 +1344,33 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 	ALLEGRO_FONT* minusHealthFont;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
+	ALLEGRO_SAMPLE* basketballattack = NULL;
 
 
 	Background basketballBattle;
 	basketballBattle.CoopBattleBackground();
+
 
 	event_queue = al_create_event_queue();
 	FPS = al_create_timer(1.0 / 60);
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_timer_event_source(FPS));
+	// Audio inialize
+	al_install_audio();
+	al_init_acodec_addon();
 
+	basketballattack = al_load_sample("basketballattack.wav");
 
 	//initialize fonts
 	skillFont = al_load_font("skillsFont.ttf", 24, 0);
 	healthFont = al_load_font("battlehealthfont.ttf", 36, 0);
+
 	minusHealthFont = al_load_font("battlehealthfont.ttf", 24, 0);
 
 	bossSprite = al_load_bitmap("basketballboss.png");
-	int bossHealth = basketballBoss.GetHealth();
-	int initialHealth = basketballBoss.GetHealth();
+	int bossHealth = 2*(basketballBoss.GetHealth());
+	int initialHealth = 2*(basketballBoss.GetHealth());
 	int player1Health = player1.GetHealth();
 	int player2Health = player2.GetHealth();
 
@@ -1297,7 +1441,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 
 			if (bossHealth <= 0 && endingScene == true) // WIN AGAINST BOSS 
 			{
-
+				// ADD DYING AUDIO? 
 				al_draw_text(minusHealthFont, al_map_rgb(0, 0, 0), 100, 190, 0, "You may have beat me but you will never win!");
 				al_flip_display();
 				al_rest(2.0);
@@ -1316,6 +1460,9 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 				//BASED ON THE USERS INPUT WE NEED AN AUDIO FOR EACH CHOICE, EACH CHOICE IS A SKILL
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
+					// audio for skill 1,  player 1
+					player1.PlayAudio1();
+
 					basketballBoss.LoseHealth(player1.useSkill1());
 					bossHealth = basketballBoss.GetHealth();
 					basketballBattle.DrawCoopBattleBackground();
@@ -1383,7 +1530,6 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 					al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 390, 0, "%i", player2.GetHealth());
 					al_flip_display();
 
-
 					al_rest(2.0);
 
 					player1_turn = false;
@@ -1443,6 +1589,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 					basketballBoss.LoseHealth(player2.useSkill1());
 					bossHealth = basketballBoss.GetHealth();
 
+					player2.PlayAudio1();
 					basketballBattle.DrawCoopBattleBackground();
 					al_draw_scaled_bitmap(bossSprite, 0, 0, basketballBoss.getBossWidth(), basketballBoss.getBossHeight(), 250, 20, 140, 170, 0);
 					player1.DrawPlayer1Battle();
@@ -1479,7 +1626,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 					bossHealth = basketballBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
-					player1.PlayAudio2();
+					player2.PlayAudio2();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					basketballBattle.DrawCoopBattleBackground();
@@ -1519,7 +1666,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 					bossHealth = basketballBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
-					player1.PlayAudio3();
+					player2.PlayAudio3();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					basketballBattle.DrawCoopBattleBackground();
@@ -1560,6 +1707,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 
 			else if (player1_turn == false && player2_turn == false && endingScene != true)
 			{
+			al_play_sample(basketballattack, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 				attack = basketballBoss.UseAttack();
 			
 				player1.LoseHealth(attack);
@@ -1605,6 +1753,7 @@ int CoopBasketballBossBattle(Major player1, Major player2, Boss &basketballBoss,
 	return player1.getLives();
 }
 
+// Single player
 int FootballBossBattle(Major player, Boss &footballBoss, float& x, float& y)
 {
 		ALLEGRO_BITMAP* playerSprite;
@@ -1614,7 +1763,12 @@ int FootballBossBattle(Major player, Boss &footballBoss, float& x, float& y)
 		ALLEGRO_FONT* minusHealthFont;
 		ALLEGRO_EVENT_QUEUE* event_queue;
 		ALLEGRO_TIMER* FPS;
+		ALLEGRO_SAMPLE* footballattack = NULL;
 
+		al_install_audio();
+		al_init_acodec_addon();
+
+		footballattack = al_load_sample("footballattack.wav");
 
 		Background footballBattle;
 		footballBattle.BattleBackground();
@@ -1824,6 +1978,7 @@ int FootballBossBattle(Major player, Boss &footballBoss, float& x, float& y)
 
 			else if (turn == false && playerHealth > 0 && endingScene != true)
 			{
+			al_play_sample(footballattack, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 				player.LoseHealth(footballBoss.UseAttack());
 				playerHealth = player.GetHealth();
 
@@ -1842,8 +1997,6 @@ int FootballBossBattle(Major player, Boss &footballBoss, float& x, float& y)
 				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 570, 15, 0, "%i", footballBoss.GetHealth());
 				al_draw_textf(healthFont, al_map_rgb(0, 0, 0), 120, 400, 0, "%i", player.GetHealth());
 				footballBoss.DrawAnimation();
-
-
 
 				al_flip_display();
 				al_rest(1.0);
@@ -1865,8 +2018,13 @@ int FinalBossBattle(Major player, Boss &finalBoss, float& x, float& y)
 	ALLEGRO_FONT* minusHealthFont;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
+	ALLEGRO_SAMPLE* bodybuilderattack = NULL;
 
+	al_install_audio();
+	al_init_acodec_addon();
 
+	bodybuilderattack= al_load_sample("bodybuilderattack.wav");
+	
 	Background finalBattle;
 	finalBattle.BattleBackground();
 
@@ -2074,6 +2232,8 @@ int FinalBossBattle(Major player, Boss &finalBoss, float& x, float& y)
 
 		else if (turn == false && playerHealth > 0 && endingScene != true)
 		{
+		al_play_sample(bodybuilderattack, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
+
 			player.LoseHealth(finalBoss.UseAttack());
 			playerHealth = player.GetHealth();
 
@@ -2196,7 +2356,12 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 	ALLEGRO_FONT* minusHealthFont;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
+	ALLEGRO_SAMPLE* footballattack = NULL;
 
+	al_install_audio();
+	al_init_acodec_addon();
+
+	footballattack = al_load_sample("footballattack.wav");
 
 	Background footballBattle;
 	footballBattle.CoopBattleBackground();
@@ -2305,6 +2470,9 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 				//BASED ON THE USERS INPUT WE NEED AN AUDIO FOR EACH CHOICE, EACH CHOICE IS A SKILL
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
+					//DAN AUDIO NEEDS TO BE HERE
+					player1.PlayAudio1();
+
 					footballBoss.LoseHealth(player1.useSkill1());
 					bossHealth = footballBoss.GetHealth();
 					footballBattle.DrawCoopBattleBackground();
@@ -2432,6 +2600,9 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 					footballBoss.LoseHealth(player2.useSkill1());
 					bossHealth = footballBoss.GetHealth();
 
+					//DAN AUDIO NEEDS TO BE HERE
+					player2.PlayAudio1();
+
 					footballBattle.DrawCoopBattleBackground();
 					al_draw_scaled_bitmap(bossSprite, 0, 0, footballBoss.getBossWidth(), footballBoss.getBossHeight(), 250, 20, 140, 170, 0);
 					player1.DrawPlayer1Battle();
@@ -2468,7 +2639,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 					bossHealth = footballBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
-					player1.PlayAudio2();
+					player2.PlayAudio2();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					footballBattle.DrawCoopBattleBackground();
@@ -2508,7 +2679,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 					bossHealth = footballBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
-					player1.PlayAudio3();
+					player2.PlayAudio3();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					footballBattle.DrawCoopBattleBackground();
@@ -2550,6 +2721,7 @@ int CoopFootballBossBattle(Major player1, Major player2, Boss &footballBoss, flo
 			else if (player1_turn == false && player2_turn == false && endingScene != true)
 			{
 				attack = footballBoss.UseAttack();
+				al_play_sample(footballattack, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 
 				player1.LoseHealth(attack);
 				player2.LoseHealth(attack);
@@ -2604,7 +2776,12 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 	ALLEGRO_FONT* minusHealthFont;
 	ALLEGRO_EVENT_QUEUE* event_queue;
 	ALLEGRO_TIMER* FPS;
+	ALLEGRO_SAMPLE* bodybuilderattack = NULL;
 
+	al_install_audio();
+	al_init_acodec_addon();
+
+	bodybuilderattack = al_load_sample("bodybuilderattack.wav");
 
 	Background finalBattle;
 	finalBattle.CoopBattleBackground();
@@ -2713,6 +2890,9 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 				//BASED ON THE USERS INPUT WE NEED AN AUDIO FOR EACH CHOICE, EACH CHOICE IS A SKILL
 				if (al_key_down(&keyState, ALLEGRO_KEY_1))
 				{
+					//DAN AUDIO NEEDS TO BE HERE
+					player1.PlayAudio1();
+
 					finalBoss.LoseHealth(player1.useSkill1());
 					bossHealth = finalBoss.GetHealth();
 					finalBattle.DrawCoopBattleBackground();
@@ -2840,6 +3020,9 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 					finalBoss.LoseHealth(player2.useSkill1());
 					bossHealth = finalBoss.GetHealth();
 
+					//DAN AUDIO NEEDS TO BE HERE
+					player2.PlayAudio1();
+
 					finalBattle.DrawCoopBattleBackground();
 					al_draw_scaled_bitmap(bossSprite, 0, 0, finalBoss.getBossWidth(), finalBoss.getBossHeight(), 250, 20, 140, 170, 0);
 					player1.DrawPlayer1Battle();
@@ -2876,7 +3059,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 					bossHealth = finalBoss.GetHealth();
 
 					//DAN AUDIO NEEDS TO BE HERE
-					player1.PlayAudio2();
+					player2.PlayAudio2();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					finalBattle.DrawCoopBattleBackground();
@@ -2916,7 +3099,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 					bossHealth = finalBoss.GetHealth();
 
 					//DAN AUDIO GOES HERE
-					player1.PlayAudio3();
+					player2.PlayAudio3();
 
 					al_clear_to_color(al_map_rgb(255, 255, 255));
 					finalBattle.DrawCoopBattleBackground();
@@ -2957,6 +3140,7 @@ int CoopFinalBossBattle(Major player1, Major player2, Boss &finalBoss, float& x,
 
 			else if (player1_turn == false && player2_turn == false && endingScene != true)
 			{
+			   al_play_sample(bodybuilderattack, 1, 0, 1, ALLEGRO_PLAYMODE_ONCE, 0);
 				attack = finalBoss.UseAttack();
 
 				player1.LoseHealth(attack);

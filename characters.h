@@ -233,6 +233,10 @@ public:
 		return health;
 	}
 
+	void UpgradeHealth()
+	{
+		health += 300;
+	}
 	void LoseHealth(int damage)
 	{
 		health -= damage;
@@ -268,38 +272,50 @@ public:
 
 	int useSkill1()
 	{
-		return skill1;
+		srand((unsigned)time(0));
+
+		int bonus = (rand() % (60 - 0 + 1));
+
+		return skill1+bonus;
 	}
 
 	int useSkill2()
 	{
+		srand((unsigned)time(0));
+
+		int bonus = (rand() % (60 - 0 + 1));
+		int bonus2 = (rand() % (120 - 0 + 1));
 		if (isNurse)
-		{
-			health += 40;
-			if (health >= 200)
+		{ 
+			// CJ MIGHT NEED TO FIX THIS 
+			health += 140 + bonus;
+			if (health >= 1350)
 			{
-				health = 200;
+				health = 1350;
 			}
 
 			return 0;
 		}
-		
 		else
 		{
-			return skill2;
+			return skill2 + bonus2;
 		}
 	}
 
 	int useSkill3()
 	{
-		return skill3;
+		srand((unsigned)time(0));
+
+		int bonus = (rand() % (5 - 0 + 1));
+
+		return skill3+bonus;
 	}
 };
 
 Major::Major()
 {
-	health = 200;
-	lives = 3;
+	health = 750;
+	lives = 1;
 	alive = true;
 }
 
@@ -312,9 +328,11 @@ void Major::PlayerLocation(float passedx, float passedy)
 void Major::compScience()
 {
 	isNurse = false;
-	skill1 = 900; 
-	skill2 = 140;
-	skill3 = 120;
+
+
+	skill1 = 140;
+	skill2 = 90;
+	skill3 = 190;
 	playerSprite = al_load_bitmap("computersciencesprite.png");
 	skill1Sprite = al_load_bitmap("computerscienceskill1.png");
 	skill2Sprite = al_load_bitmap("computerscienceskill2.png");
@@ -335,9 +353,13 @@ void Major::compScience()
 void Major::music()
 {
 	isNurse = false;
-	skill1 = 90;
-	skill2 = 140;
-	skill3 = 120;
+
+	srand((unsigned)time(0));
+
+	skill1 = 110;
+	skill2 = 120;
+	skill3 = 250;
+
 	playerSprite = al_load_bitmap("musiciansprite.png");
 	skill1Sprite = al_load_bitmap("musicskill1.png");
 	skill2Sprite = al_load_bitmap("musicskill2.png");
@@ -359,9 +381,12 @@ void Major::music()
 void Major::nurse()
 {
 	isNurse = true;
-	skill1 = 90;
-	skill2 = 0;
-	skill3 = 120;
+
+	srand((unsigned)time(0));
+
+	skill1 = 100;
+	skill2 = 0 ;
+	skill3 = 210;
 	playerSprite = al_load_bitmap("nursesprite.png");
 	skill1Sprite = al_load_bitmap("nurseskill1.png");
 	skill2Sprite = al_load_bitmap("nurseskill2.png");
@@ -383,9 +408,11 @@ void Major::nurse()
 void Major::chemistry()
 {
 	isNurse = false;
-	skill1 = 90;
-	skill2 = 140;
-	skill3 = 120;
+
+
+	skill1 = 140;
+	skill2 = 100;
+	skill3 = 160;
 	playerSprite = al_load_bitmap("frontchemistrysprite.png");
 	skill1Sprite = al_load_bitmap("chemistryskill1.png");
 	skill2Sprite = al_load_bitmap("chemistryskill2.png");
@@ -443,13 +470,16 @@ public:
 
 void Boss::Basketball_Boss()
 {
-	health = 1000;
+	health = 880;
 	dead = false;
 	x = 440;
 	y = 475;
+
+
 	attack1 = 100;
-	attack2 = 120;
-	attack3 = 120;
+	attack2 = 180;
+	attack3 = 150;
+
 	bossSprite = al_load_bitmap("basketballboss.png");
 	animation1 = al_load_bitmap("basketballattack1.png");
 	animation2 = al_load_bitmap("basketballattack2.png");
@@ -458,13 +488,13 @@ void Boss::Basketball_Boss()
 
 void Boss::Football_Boss()
 {
-	health = 600;
+	health = 930;
 	dead = false;
 	x = 680;
 	y = 80;
-	attack1 = 300;
-	attack2 = 200;
-	attack3 = 120;
+	attack1 = 250;
+	attack2 = 280;
+	attack3 = 200;
 	bossSprite = al_load_bitmap("footballsprite.png");
 	animation1 = al_load_bitmap("footballanimation1.png");
 	animation2 = al_load_bitmap("footballanimation2.png");
@@ -473,12 +503,12 @@ void Boss::Football_Boss()
 
 void Boss::Final_Boss()
 {
-	health = 1000;
+	health = 1500;
 	dead = false;
 	x = 1000;
 	y = 320;
-	attack1 = 60;
-	attack2 = 90;
+	attack1 = 300;
+	attack2 = 230;
 	attack3 = 120;
 	bossSprite = al_load_bitmap("bodybuildersprite.png");
 	animation1 = al_load_bitmap("bodybuilderattack1.png");
